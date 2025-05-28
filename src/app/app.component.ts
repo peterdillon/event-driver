@@ -2,7 +2,7 @@ import { Component, AfterViewInit, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { InitMapService } from './services/init-map.service';
-import { EventDriverService, Data } from './services/rideperks.service';
+import { EventDriverService, Data } from './services/eventdriver.service';
 import { MarkerService } from './services/marker.service';
 import { LayerService } from './services/layer.service';
 import { Event } from './utils/interfaces';
