@@ -2,7 +2,7 @@ import { Component, AfterViewInit, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { InitMapService } from './services/init-map.service';
-import { RideperksService, Data } from './services/rideperks.service';
+import { EventDriverService, Data } from './services/rideperks.service';
 import { MarkerService } from './services/marker.service';
 import { LayerService } from './services/layer.service';
 import { Event } from './utils/interfaces';
@@ -40,13 +40,12 @@ export class AppComponent implements AfterViewInit, OnInit {
   data = signal<Data[]>([]);
   events = [];
   results: Event[] = [];
-  tempBool = false;
   now = new Date().toISOString();
 
   constructor(
     private http: HttpClient,
     private initMapService: InitMapService,
-    private rpService: RideperksService,
+    private eventDriverService: EventDriverService,
     private markerService: MarkerService,
     private layerService: LayerService,
     public loadingService: LoadingService ) { }
@@ -57,11 +56,9 @@ export class AppComponent implements AfterViewInit, OnInit {
     }
 
     fetchData() {
-      this.tempBool = true;
-      this.rpService.getData().subscribe(data => { 
+      this.eventDriverService.getData().subscribe(data => { 
         this.data.set(data);
         console.log(data);
-        this.tempBool = false;
       });
     }
 
@@ -72,7 +69,6 @@ export class AppComponent implements AfterViewInit, OnInit {
     }
 
     getPredictHQ() {
-      this.tempBool = true;
       const today = new Date().toISOString().split('T')[0];
       const nextDay = this.getNextDay(today);
       const params = new HttpParams()
@@ -89,10 +85,9 @@ export class AppComponent implements AfterViewInit, OnInit {
         .set('start.gte', this.now)
         .set('sort', 'phq_attendance,predicted_end');
 
-      this.rpService.getEvents(params).subscribe(response => {
+      this.eventDriverService.getEvents(params).subscribe(response => {
         this.events = response;
         console.log(this.events);
-        this.tempBool = false;
         for (let key in this.events) {
           if (key === "results") {
               this.results = this.events[key];

@@ -14,7 +14,7 @@ export interface Data {
   providedIn: 'root'
 })
 
-export class RideperksService {
+export class EventDriverService {
 
   constructor( private http: HttpClient ) { }
 

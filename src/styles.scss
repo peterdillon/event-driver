@@ -87,19 +87,14 @@ nz-splitter {
 .ant-splitter-vertical > .ant-splitter-bar .ant-splitter-bar-dragger {
     background-color: black;
     &::after {
-        background-color: #222;
-        height: 12px;
-        width: 60px;
-        background-image: radial-gradient(circle, #888 10%, transparent 10%);
-        background-position: 0 0, 1px 0;
+        height: 5px;
+        width: 50px;
+        background-image: radial-gradient(circle, #ccc 10%, transparent 10%);
         background-size: 5px 5px;
-        background-repeat: repeat;
         border-radius: 3rem;
-        padding-top: 1px;
-        border-top: 1px solid #222;
         border-right: 4px solid #222;
         border-left: 3px solid #222;
-        top: -0.195rem;
+        top: -0.22rem;
     }
     &::before {
         height: 0px;
