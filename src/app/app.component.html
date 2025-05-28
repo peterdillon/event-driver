@@ -1,0 +1,64 @@
+@if (loadingService.isLoading()) {
+  <div id="overlay">
+    <nz-icon nzType="loading" class="load-icon" />
+  </div>
+}
+<!-- {{ loadingService.requestCount() }} -->
+
+<nz-splitter nzLayout="vertical">
+  <nz-splitter-panel nzDefaultSize="60%" nzMin="20%" nzMax="90%">
+      <div class="map-container">
+        <div class="map-frame">
+          <div id="map"></div>
+        </div>
+      </div>
+  </nz-splitter-panel>
+
+  <nz-splitter-panel>
+
+    <!-- Refresh button -->
+    <div class="shape">
+      <nz-float-button (click)="getPredictHQ()" nzShape="circle" nzType="primary" [nzIcon]="icon"> </nz-float-button>
+      <ng-template #icon>
+        <nz-icon nzType="redo" nzTheme="outline" />
+      </ng-template>
+    </div>
+
+    <div class="relative">
+      <div class="wrapper">
+        <div class="list">
+          <div *ngFor="let res of results" class="item">
+              <nz-card [nzBordered]="false" [nzActions]="[map, capacity, endTime]">
+                <div class="ant-card-meta-detail">
+                  <div class="ant-card-meta-title">{{ res.title }} <span class="cap">({{ res.category }})</span></div>
+                  <!-- <div class="ant-card-meta-description">{{ res.description | removeSourced }}</div> -->
+                  <div class="ant-card-meta-description">
+                    <span *ngFor="let e of res.entities">{{ e.name | removeSourced }}, </span>
+                  </div>
+                  <div class="ant-card-meta-description">{{ res.geo.address.formatted_address }}</div>
+                  <!-- <span class="warning">000</span> -->
+                  <div class="ant-card-meta-description"></div>
+              </div>
+              </nz-card>
+              <ng-template #map>
+                <a href="https://www.google.com/maps/dir/Current+Location/{{res.location[1]}},{{res.location[0]}}" target="_blank">
+                  Map <nz-icon nzType="environment" nzTheme="outline" />
+                </a>
+              </ng-template>
+              <ng-template #capacity>
+                <a href="#">
+                  <span *ngIf="res.phq_attendance | isEmpty"> No data</span>
+                  {{ res.phq_attendance | shortNumber }} <nz-icon nzType="user" nzTheme="outline" />
+                </a>
+              </ng-template>
+              <ng-template #endTime>Ends: {{ res.predicted_end ? (res.predicted_end | customEndTime) : (res.end_local | customEndTime) }}</ng-template>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </nz-splitter-panel>
+
+</nz-splitter>
+
+    

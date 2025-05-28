@@ -1,0 +1,152 @@
+// -------------------------------
+$primary-color: rgba(27, 222, 132,1);
+$secondary-color: rgba(18, 70, 46, 1);
+// -------------------------------
+.ant-btn-primary,
+.ant-btn-primary:hover, .ant-btn-primary:focus {
+    background-color: $secondary-color;
+}
+.load-icon {
+    font-size: 54px;
+    color: $primary-color;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+}
+
+#overlay{
+  position: fixed;
+  z-index: 99999;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(0,0,0,0.9);
+  transition: 1s 0.4s;
+}
+
+// -------------------------------
+.cap {
+    text-transform: capitalize;
+    color: rgba(255, 255, 255, 0.45);
+    font-size: 14px;
+}
+
+.leaflet-touch .leaflet-control-layers, 
+.leaflet-touch .leaflet-bar {
+    border: none;
+}
+.leaflet-container a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+.ant-card-meta-detail > div:not(:last-child) {
+    margin-bottom: 0;
+}
+
+.pulse {
+    display: block;
+    border-radius: 50%;
+    cursor: pointer;
+    animation: pulse 2s infinite;
+}
+@keyframes pulse {
+    0%   { box-shadow: 0 0 0 0; }
+    70%  { box-shadow: 0 0 0 10px rgba(0, 0, 0, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0); }
+}
+
+.warning {
+    color: orange;
+    font-weight: bold;
+}
+
+.leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar {
+    filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
+    border: 1px solid #ccc;
+}
+// ----------------------
+nz-splitter {
+  position: absolute;
+}
+.box {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ant-splitter-panel {
+    padding: 0;
+    scrollbar-color: #444 #222;
+    scrollbar-width: 6px;
+}
+
+.ant-splitter-vertical > .ant-splitter-bar .ant-splitter-bar-dragger {
+    background-color: black;
+    &::after {
+        background-color: #222;
+        height: 12px;
+        width: 60px;
+        background-image: radial-gradient(circle, #888 10%, transparent 10%);
+        background-position: 0 0, 1px 0;
+        background-size: 5px 5px;
+        background-repeat: repeat;
+        border-radius: 3rem;
+        padding-top: 1px;
+        border-top: 1px solid #222;
+        border-right: 4px solid #222;
+        border-left: 3px solid #222;
+        top: -0.195rem;
+    }
+    &::before {
+        height: 0px;
+    }
+}
+.ant-card-head,
+.ant-card-head-title,
+.ant-card-body {
+    padding: .5rem !important;
+}
+// ------------------------------
+.leaflet-control-attribution {
+    display: none;
+    background-color: #121212;
+    color: #ccc;
+    border-top-left-radius: 6px;
+}
+.map-container {
+    height: calc(100% - 1rem);
+}
+.map-frame {
+    height: 100%;
+}
+#map {
+    height: 100%;
+}
+
+// ------------------------
+
+.relative {
+  position: relative;  
+}
+.wrapper {
+  width: 100%;
+  position: absolute;
+}
+.list {
+  overflow-y: scroll;
+  width: 101%;
+  box-sizing: border-box;
+    &::-webkit-scrollbar {
+        width: 0;
+        background: transparent;
+    }
+  .item {
+    border-bottom: 1px solid rgba(#ccc, .8);
+  }
+}
+
+

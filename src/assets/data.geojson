@@ -1,0 +1,19 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          36.12056, -115.16139
+        ]
+      },
+      "properties": {
+        "state": "Nevada",
+        "name": "The Sphere",
+        "population": 15000
+      }
+    }
+  ]
+}
