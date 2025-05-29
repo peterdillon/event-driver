@@ -14,6 +14,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzFloatButtonModule } from 'ng-zorro-antd/float-button';
+import { TimerComponent } from './timer.component';
 
 import "leaflet.locatecontrol";
 import "leaflet.locatecontrol/dist/L.Control.Locate.min.css";
@@ -29,7 +30,7 @@ L.Marker.prototype.options.icon = iconDefault;
     CommonModule, RemoveSourced, CustomDatePipe, 
     ShortNumberPipe, IsEmptyPipe, NzSplitterModule, 
     NzCardModule, NzIconModule, NzSpinModule, NzButtonModule,
-    NzFloatButtonModule ],
+    NzFloatButtonModule, TimerComponent ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -87,7 +88,6 @@ export class AppComponent implements AfterViewInit, OnInit {
 
       this.eventDriverService.getEvents(params).subscribe(response => {
         this.events = response;
-        console.log(this.events);
         for (let key in this.events) {
           if (key === "results") {
               this.results = this.events[key];
