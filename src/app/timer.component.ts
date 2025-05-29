@@ -1,8 +1,7 @@
-import { Component, Input, inject, computed, effect, signal, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, inject, computed, effect, signal, OnDestroy, OnInit, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CustomEndTimePipe, RemoveSourced, ShortNumberPipe, IsEmptyPipe } from './utils/pipes'
-
 import { SharedDataService, PredictHQItem } from './services/shared-api-data.service';
+import { DatePipe } from '@angular/common';
 
 interface TimerState {
   display: string;
@@ -14,34 +13,9 @@ interface TimerState {
 @Component({
   selector: 'app-timer',
   standalone: true,
-  imports: [CommonModule, CustomEndTimePipe],
-  template: `
-  <!-- <p>Timer for Item: {{ itemData.id }}</p>
-      <p>Predicted End: {{ predictedEnd() }}</p> -->
-        Ends: {{ timerState().display | customEndTime}}
-      <!-- <div class="timer-status">
-        @if (timerState().isActive) {
-          @if (timerState().isCountdown) {
-            <span class="status-text">Time remaining</span>
-          } @else {
-            <span class="status-text">Time elapsed</span>
-          }
-        } @else {
-          <span class="status-text">Timer inactive</span>
-        }
-      </div> -->
-      
-      <!-- Test buttons for demo -->
-      <!-- <div class="test-controls">
-        <button (click)="testFutureTime()">Test Future (29.5 min)</button>
-        <button (click)="testPastTime()">Test Past (-29.5 min)</button>
-        <button (click)="testFuture10Min()">Test Future (10 min)</button>
-        <button (click)="testPast10Min()">Test Past (-10 min)</button>
-        <button (click)="testCurrentTime()">Test Current Time</button>
-        <button (click)="stopTimer()">Stop Timer</button>
-      </div>
-    </div> -->
-  `
+  imports: [CommonModule],
+  providers: [DatePipe],
+  template: `Ends: {{ timerState().display }} `
 })
 export class TimerComponent implements OnInit, OnDestroy {
   private intervalId: number | null = null;
@@ -78,20 +52,29 @@ export class TimerComponent implements OnInit, OnDestroy {
     const diffSeconds = Math.floor(Math.abs(diffMs) / 1000);
     
     // Check if within 30-minute window (with small buffer for processing time)
-    const thirtyMinutesMs = 30 * 60 * 1000 + 5000; // Add 5 second buffer
+    const thirtyMinutesMs = 130 * 60 * 1000 + 5000; // Add 5 second buffer
     const isWithinWindow = Math.abs(diffMs) <= thirtyMinutesMs;
     
     if (!isWithinWindow) {
+
+        // Convert out of window UTC time to local time.
+    const y = (this.itemData?.predicted_end ? this.itemData?.predicted_end : this.itemData?.end_local || '');
+    const localDate = new Date(y); // Convert UTC timestamp to local time
+
       return {
-        display: (this.itemData?.predicted_end ? this.itemData?.predicted_end : this.itemData?.end_local || '') ,
+        display: this.datePipe.transform(localDate, 'h:mm a') || '',
         isCountdown: true,
         isActive: false,
         totalSeconds: 0
       };
     }
 
+    
+
     const isCountdown = diffMs > 0;
     const display = this.formatTime(diffSeconds, !isCountdown);
+    // this.datePipe.transform(display, 'h:mm a', 'UTC') || '';
+
 
     return {
       display,
@@ -101,7 +84,10 @@ export class TimerComponent implements OnInit, OnDestroy {
     };
   });
 
-  constructor( public sharedDataService: SharedDataService ) {
+  constructor( 
+    public sharedDataService: SharedDataService,
+    @Inject(DatePipe) private datePipe: DatePipe
+   ) {
     // Effect to handle timer updates when target changes
     effect(() => {
       const state = this.timerState();
@@ -120,6 +106,10 @@ ngOnInit(): void {
 startCountDown(): void {
     this.setApiTimestamp(this.itemData?.predicted_end ? this.itemData?.predicted_end : this.itemData?.end_local || '');
 }
+ // Public method to set the timestamp from API
+  setApiTimestamp(timestamp: string) {
+    this.targetTimestamp.set(timestamp);
+  }
 
   ngOnDestroy() {
     this.stopTimer();
@@ -147,11 +137,6 @@ startCountDown(): void {
       clearInterval(this.intervalId);
       this.intervalId = null;
     }
-  }
-
-  // Public method to set the timestamp from API
-  setApiTimestamp(timestamp: string) {
-    this.targetTimestamp.set(timestamp);
   }
 
   // Test methods for demonstration - remove later
