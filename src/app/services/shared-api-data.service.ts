@@ -4,6 +4,7 @@ import { signal } from '@angular/core';
 export interface PredictHQItem {
   id: string;
   predicted_end: string;
+  end_local: string
 }
 
 @Injectable({

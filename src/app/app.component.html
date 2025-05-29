@@ -36,7 +36,9 @@
                     <span *ngFor="let e of item.entities">{{ e.name | removeSourced }}, </span>
                   </div>
                   <div class="ant-card-meta-description">{{ item.geo.address.formatted_address }}</div>
-                  <div class="ant-card-meta-description"></div>
+                  <div class="ant-card-meta-description">
+                    Estimated end time: {{ item.predicted_end ? (item.predicted_end | customEndTime) : (item.end_local | customEndTime) }}
+                  </div>
               </div>
               </nz-card>
               <ng-template #map>
@@ -51,8 +53,7 @@
                 </a>
               </ng-template>
               <ng-template #endTime>
-                <app-timer [itemData]="item" [itemIndex]="i"></app-timer>
-                Ends: {{ item.predicted_end ? (item.predicted_end | customEndTime) : (item.end_local | customEndTime) }}
+                <app-timer [itemData]="item" [itemIndex]="i"></app-timer> 
               </ng-template>
           </div>
         }

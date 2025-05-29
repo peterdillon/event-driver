@@ -1,5 +1,6 @@
-import { Component, Input, inject, computed, effect, signal, OnDestroy } from '@angular/core';
+import { Component, Input, inject, computed, effect, signal, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { CustomEndTimePipe, RemoveSourced, ShortNumberPipe, IsEmptyPipe } from './utils/pipes'
 
 import { SharedDataService, PredictHQItem } from './services/shared-api-data.service';
 
@@ -13,11 +14,11 @@ interface TimerState {
 @Component({
   selector: 'app-timer',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, CustomEndTimePipe],
   template: `
-  <p>Timer for Item: {{ itemData.id }}</p>
-      <p>Predicted End: {{ predictedEnd() }}</p>
-        {{ timerState().display }}
+  <!-- <p>Timer for Item: {{ itemData.id }}</p>
+      <p>Predicted End: {{ predictedEnd() }}</p> -->
+        Ends: {{ timerState().display | customEndTime}}
       <!-- <div class="timer-status">
         @if (timerState().isActive) {
           @if (timerState().isCountdown) {
@@ -36,14 +37,13 @@ interface TimerState {
         <button (click)="testPastTime()">Test Past (-29.5 min)</button>
         <button (click)="testFuture10Min()">Test Future (10 min)</button>
         <button (click)="testPast10Min()">Test Past (-10 min)</button>
--->
         <button (click)="testCurrentTime()">Test Current Time</button>
-   <!--     <button (click)="stopTimer()">Stop Timer</button>
+        <button (click)="stopTimer()">Stop Timer</button>
       </div>
     </div> -->
   `
 })
-export class TimerComponent implements OnDestroy {
+export class TimerComponent implements OnInit, OnDestroy {
   private intervalId: number | null = null;
   private targetTimestamp = signal<string | null>(null);
   private currentTime = signal<Date>(new Date());
@@ -79,16 +79,16 @@ export class TimerComponent implements OnDestroy {
     
     // Check if within 30-minute window (with small buffer for processing time)
     const thirtyMinutesMs = 30 * 60 * 1000 + 5000; // Add 5 second buffer
-    // const isWithinWindow = Math.abs(diffMs) <= thirtyMinutesMs;
+    const isWithinWindow = Math.abs(diffMs) <= thirtyMinutesMs;
     
-    // if (!isWithinWindow) {
-    //   return {
-    //     display: 'Out of range',
-    //     isCountdown: true,
-    //     isActive: false,
-    //     totalSeconds: 0
-    //   };
-    // }
+    if (!isWithinWindow) {
+      return {
+        display: (this.itemData?.predicted_end ? this.itemData?.predicted_end : this.itemData?.end_local || '') ,
+        isCountdown: true,
+        isActive: false,
+        totalSeconds: 0
+      };
+    }
 
     const isCountdown = diffMs > 0;
     const display = this.formatTime(diffSeconds, !isCountdown);
@@ -112,6 +112,14 @@ export class TimerComponent implements OnDestroy {
       }
     });
   }
+  
+ngOnInit(): void {
+    this.startCountDown();
+}
+
+startCountDown(): void {
+    this.setApiTimestamp(this.itemData?.predicted_end ? this.itemData?.predicted_end : this.itemData?.end_local || '');
+}
 
   ngOnDestroy() {
     this.stopTimer();
@@ -160,8 +168,7 @@ export class TimerComponent implements OnDestroy {
   }
 
   testCurrentTime() {
-    // this.setApiTimestamp(new Date().toISOString());
-    this.setApiTimestamp(this.itemData?.predicted_end || '');
+    this.setApiTimestamp(new Date().toISOString());
   }
 
   // Additional test methods for quicker demo
