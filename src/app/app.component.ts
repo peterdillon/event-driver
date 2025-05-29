@@ -6,7 +6,8 @@ import { EventDriverService, Data } from './services/eventdriver.service';
 import { MarkerService } from './services/marker.service';
 import { LayerService } from './services/layer.service';
 import { Event } from './utils/interfaces';
-import { CustomDatePipe, RemoveSourced, ShortNumberPipe, IsEmptyPipe } from './utils/pipes'
+import { SharedDataService } from './services/shared-api-data.service';
+import { CustomEndTimePipe, RemoveSourced, ShortNumberPipe, IsEmptyPipe } from './utils/pipes'
 import { iconDefault } from './services/custom-icon.service';
 import { NzSplitterModule } from 'ng-zorro-antd/splitter';
 import { NzCardModule } from 'ng-zorro-antd/card';
@@ -15,22 +16,21 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzFloatButtonModule } from 'ng-zorro-antd/float-button';
 import { TimerComponent } from './timer.component';
-
 import "leaflet.locatecontrol";
 import "leaflet.locatecontrol/dist/L.Control.Locate.min.css";
 import * as L from 'leaflet';
 import { LoadingService } from './services/loading.service';
-import { Subscription } from 'rxjs';
 L.Marker.prototype.options.icon = iconDefault;
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
-    CommonModule, RemoveSourced, CustomDatePipe, 
+    CommonModule, RemoveSourced, 
     ShortNumberPipe, IsEmptyPipe, NzSplitterModule, 
     NzCardModule, NzIconModule, NzSpinModule, NzButtonModule,
-    NzFloatButtonModule, TimerComponent ],
+    NzFloatButtonModule, TimerComponent, CustomEndTimePipe, 
+],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -49,7 +49,8 @@ export class AppComponent implements AfterViewInit, OnInit {
     private eventDriverService: EventDriverService,
     private markerService: MarkerService,
     private layerService: LayerService,
-    public loadingService: LoadingService ) { }
+    public loadingService: LoadingService,
+    public sharedDataService: SharedDataService ) { }
 
     ngOnInit(): void {
       this.fetchData();
@@ -84,7 +85,8 @@ export class AppComponent implements AfterViewInit, OnInit {
         .set('category', 'concerts,sports,festivals,conferences,expos,performing-arts,community,politics')
         .set('limit', '50')
         .set('start.gte', this.now)
-        .set('sort', 'phq_attendance,predicted_end');
+        .set('sort', 'predicted_end');
+        // phq_attendance
 
       this.eventDriverService.getEvents(params).subscribe(response => {
         this.events = response;
@@ -92,33 +94,35 @@ export class AppComponent implements AfterViewInit, OnInit {
           if (key === "results") {
               this.results = this.events[key];
               console.log(this.results);
+              // Set in shared-api-data.service
+              this.sharedDataService.setData(this.results)
           }
         }
       });
     }
 
-  ngAfterViewInit(): void {
-    this.initMapService.initMap();
-    const map = this.initMapService.getMap();
-    // this.markerService.makeCapitalMarkers(map);
-    // this.markerService.makePulsingMarker(map);
-    this.layerService.createLayer(map);
+    ngAfterViewInit(): void {
+      this.initMapService.initMap();
+      const map = this.initMapService.getMap();
+      // this.markerService.makeCapitalMarkers(map);
+      // this.markerService.makePulsingMarker(map);
+      this.layerService.createLayer(map);
 
-    // --------- custom car icon ----------
-    const carIcon = L.icon({
-        iconUrl: './assets/car-top.png',
-        iconSize:     [33, 15],
-        iconAnchor:   [21, 10], 
-        popupAnchor:  [5, -13]
-    });
-    L.marker([36.12056, -115.16139], {icon: carIcon}).addTo(map).bindPopup("Driver 1");;
-    // --------- end custom car icon ------
-    
-    // --------- add location ----------
-    L.control.locate({
-      position: 'bottomright',
-      flyTo: true
-    }).addTo(map);
-  }
+      // --------- custom car icon ----------
+      const carIcon = L.icon({
+          iconUrl: './assets/car-top.png',
+          iconSize:     [33, 15],
+          iconAnchor:   [21, 10], 
+          popupAnchor:  [5, -13]
+      });
+      L.marker([36.12056, -115.16139], {icon: carIcon}).addTo(map).bindPopup("Driver 1");;
+      // --------- end custom car icon ------
+      
+      // --------- add location ----------
+      L.control.locate({
+        position: 'bottomright',
+        flyTo: true
+      }).addTo(map);
+    }
   
 }

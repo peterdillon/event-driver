@@ -3,7 +3,7 @@ import { DatePipe } from '@angular/common';
 
 // -------------------------------
 @Pipe({ name: 'customEndTime' })
-export class CustomDatePipe extends DatePipe implements PipeTransform {
+export class CustomEndTimePipe extends DatePipe implements PipeTransform {
   override transform(value: any, args?: any): any {
     return super.transform(value, "h:mm a");
   }
