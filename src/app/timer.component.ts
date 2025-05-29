@@ -33,7 +33,6 @@ export class TimerComponent implements OnInit, OnDestroy {
   // Computed signal that calculates the timer state
   timerState = computed<TimerState>(() => {
     const timestamp = this.targetTimestamp();
-    // Use the signal instead of new Date()
     const now = this.currentTime(); 
     
     if (!timestamp) {
@@ -58,8 +57,8 @@ export class TimerComponent implements OnInit, OnDestroy {
     if (!isWithinWindow) {
 
         // Convert out of window UTC time to local time.
-    const y = (this.itemData?.predicted_end ? this.itemData?.predicted_end : this.itemData?.end_local || '');
-    const localDate = new Date(y); // Convert UTC timestamp to local time
+        const y = (this.itemData?.predicted_end ? this.itemData?.predicted_end : this.itemData?.end_local || '');
+        const localDate = new Date(y); // Convert UTC timestamp to local time
 
       return {
         display: this.datePipe.transform(localDate, 'h:mm a') || '',
@@ -67,14 +66,10 @@ export class TimerComponent implements OnInit, OnDestroy {
         isActive: false,
         totalSeconds: 0
       };
-    }
-
-    
+    } 
 
     const isCountdown = diffMs > 0;
     const display = this.formatTime(diffSeconds, !isCountdown);
-    // this.datePipe.transform(display, 'h:mm a', 'UTC') || '';
-
 
     return {
       display,
