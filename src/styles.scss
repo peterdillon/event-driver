@@ -1,6 +1,17 @@
 // -------------------------------
-$primary-color: rgba(27, 222, 132,1);
-$secondary-color: rgba(18, 70, 46, 1);
+$primary-color: rgb(27, 222, 132);
+$secondary-color: rgb(18, 70, 46);
+$soon-status: orange;
+$later-status: rgb(153, 204, 255);
+
+.soon {
+    color: $soon-status;
+}
+.later {
+    color: $later-status;
+}
+
+
 // -------------------------------
 .ant-btn-primary,
 .ant-btn-primary:hover, .ant-btn-primary:focus {
