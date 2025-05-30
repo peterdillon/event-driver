@@ -103,7 +103,7 @@ export class AppComponent implements AfterViewInit, OnInit {
         .set('rank.gte', '20')
         .set('state', 'active,predicted')
         .set('category', category)
-        .set('limit', '100')
+        .set('limit', '50')
         .set('start.gte', this.now)
         .set('sort', sort);
 
