@@ -18,16 +18,10 @@
 
 
     <ul nz-menu nzMode="horizontal">
-      <li nz-menu-item>
-        Sort by:
+      <li nz-menu-item class="x-small">
+        Sort:
       </li>
-      <li nz-menu-item>
-        &nbsp; <nz-icon nzType="user" nzTheme="outline" /> &nbsp; 
-      </li>
-      <li nz-menu-item>
-        &nbsp; <nz-icon nzType="clock-circle" nzTheme="outline" /> &nbsp; 
-      </li>
-      <li nz-submenu nzIcon="filter">
+      <li nz-submenu nzIcon="funnel-plot">
         <ul>
           <li nz-menu-group nzTitle="Categories" nzPlacement="bottomRight">
             <ul>
@@ -44,18 +38,24 @@
           </li>
         </ul>
       </li>
-      <!-- <li nz-menu-item>
-        <a href="https://ng.ant.design" target="_blank" rel="noopener noreferrer">Navigation Four - Link</a>
-      </li> -->
+      <li nz-menu-item>
+        &nbsp; <nz-icon nzType="user" nzTheme="outline" /> &nbsp; 
+      </li>
+      <li nz-menu-item>
+        &nbsp; <nz-icon nzType="clock-circle" nzTheme="outline" /> &nbsp; 
+      </li>
+      <li nz-menu-item (click)="getPredictHQ()">
+        &nbsp; <nz-icon nzType="redo" nzTheme="outline" /> &nbsp; 
+      </li>
     </ul>
 
     <!-- Refresh button -->
-    <div class="shape">
+    <!-- <div class="shape">
       <nz-float-button (click)="getPredictHQ()" nzShape="circle" nzType="primary" [nzIcon]="icon"> </nz-float-button>
       <ng-template #icon>
         <nz-icon nzType="redo" nzTheme="outline" />
       </ng-template>
-    </div>
+    </div> -->
 
 
 
@@ -75,7 +75,7 @@
                     Estimated end time: {{ item.predicted_end ? (item.predicted_end | customEndTime) : (item.end_local | customEndTime) }}
                   </div>
                   <div class="ant-card-meta-description">
-                    Start: {{ (item.start | customEndTime) }} or {{ item.start_local | customEndTime }}
+                    Start:  {{ item.start_local | customEndTime }}
                   </div>
               </div>
               </nz-card>

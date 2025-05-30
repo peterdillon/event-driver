@@ -10,9 +10,16 @@ $later-status: rgb(153, 204, 255);
 .later {
     color: $later-status;
 }
+.x-small {
+    font-size: 12px;
+    padding: 0 5px 0 20px !important;
+}
 
 .ant-menu-horizontal > .ant-menu-submenu > .ant-menu-submenu-title {
     padding-left: 10px;
+}
+.ant-menu-item .ant-menu-item-icon, .ant-menu-submenu-title .ant-menu-item-icon, .ant-menu-item .anticon, .ant-menu-submenu-title .anticon {
+    font-size: 18px;
 }
 
 
