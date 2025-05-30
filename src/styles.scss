@@ -11,6 +11,10 @@ $later-status: rgb(153, 204, 255);
     color: $later-status;
 }
 
+.ant-menu-horizontal > .ant-menu-submenu > .ant-menu-submenu-title {
+    padding-left: 10px;
+}
+
 
 // -------------------------------
 .ant-btn-primary,

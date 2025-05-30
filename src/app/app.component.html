@@ -18,18 +18,21 @@
 
 
     <ul nz-menu nzMode="horizontal">
-      <li nz-menu-item nzSelected>
-        <nz-icon nzType="user" nzTheme="outline" />
-      </li>
-      <!-- nzDisabled -->
       <li nz-menu-item>
-        <nz-icon nzType="clock-circle" nzTheme="outline" />
+        Sort by:
       </li>
-      <li nz-submenu nzTitle="Type" nzIcon="setting">
+      <li nz-menu-item>
+        &nbsp; <nz-icon nzType="user" nzTheme="outline" /> &nbsp; 
+      </li>
+      <li nz-menu-item>
+        &nbsp; <nz-icon nzType="clock-circle" nzTheme="outline" /> &nbsp; 
+      </li>
+      <li nz-submenu nzIcon="filter">
         <ul>
-          <li nz-menu-group nzTitle="Categories">
+          <li nz-menu-group nzTitle="Categories" nzPlacement="bottomRight">
             <ul>
-              <li nz-menu-item>Conferences</li>
+              <li nz-menu-item>All</li>
+              <li nz-menu-item (click)="getPredictHQ()">Conferences</li>
               <li nz-menu-item>Expos</li>
               <li nz-menu-item>Concerts</li>
               <li nz-menu-item>Sports</li>
