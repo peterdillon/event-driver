@@ -1,15 +1,15 @@
 import {
-  NzConfigService
-} from "./chunk-W3WBH3FP.js";
-import {
-  Platform
-} from "./chunk-YFM26YLY.js";
-import {
   _defineProperty
 } from "./chunk-BQ76GOFF.js";
 import {
+  NzConfigService
+} from "./chunk-RDSXJWXD.js";
+import {
   warn
-} from "./chunk-4BFYJASE.js";
+} from "./chunk-ICPYZYLJ.js";
+import {
+  Platform
+} from "./chunk-P2P4DN2X.js";
 import {
   DomSanitizer
 } from "./chunk-MDNML62H.js";
@@ -1837,4 +1837,4 @@ export {
   provideNzIconsPatch,
   NzIconModule
 };
-//# sourceMappingURL=chunk-GEGR3LMJ.js.map
+//# sourceMappingURL=chunk-UEKNHNTS.js.map

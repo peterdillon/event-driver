@@ -1,7 +1,8 @@
 import {
   ElementRef,
   TemplateRef,
-  isDevMode
+  isDevMode,
+  numberAttribute
 } from "./chunk-VALEE6FX.js";
 import {
   fromEvent
@@ -20,6 +21,15 @@ function coerceCssPixelValue(value) {
 }
 
 // node_modules/@angular/cdk/fesm2022/element-x4z00URv.mjs
+function coerceNumberProperty(value, fallbackValue = 0) {
+  if (_isNumberValue(value)) {
+    return Number(value);
+  }
+  return arguments.length === 2 ? fallbackValue : 0;
+}
+function _isNumberValue(value) {
+  return !isNaN(parseFloat(value)) && !isNaN(Number(value));
+}
 function coerceElement(elementOrRef) {
   return elementOrRef instanceof ElementRef ? elementOrRef.nativeElement : elementOrRef;
 }
@@ -59,6 +69,9 @@ function isNotNil(value) {
 }
 function isTemplateRef(value) {
   return value instanceof TemplateRef;
+}
+function numberAttributeWithZeroFallback(value) {
+  return numberAttribute(value, 0);
 }
 function toCssPixel(value) {
   return coerceCssPixelValue(value);
@@ -160,6 +173,7 @@ function fromEventOutsideAngular(target, name, options) {
 }
 
 export {
+  coerceNumberProperty,
   coerceElement,
   coerceArray,
   coerceCssPixelValue,
@@ -167,6 +181,7 @@ export {
   warn,
   isNotNil,
   isTemplateRef,
+  numberAttributeWithZeroFallback,
   toCssPixel,
   isTouchEvent,
   getEventPosition,
@@ -175,4 +190,4 @@ export {
   updateCSS,
   fromEventOutsideAngular
 };
-//# sourceMappingURL=chunk-4BFYJASE.js.map
+//# sourceMappingURL=chunk-ICPYZYLJ.js.map

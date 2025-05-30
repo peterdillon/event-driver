@@ -15,6 +15,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzFloatButtonModule } from 'ng-zorro-antd/float-button';
+import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { TimerComponent } from './timer.component';
 import "leaflet.locatecontrol";
 import "leaflet.locatecontrol/dist/L.Control.Locate.min.css";
@@ -26,7 +27,7 @@ L.Marker.prototype.options.icon = iconDefault;
   selector: 'app-root',
   standalone: true,
   imports: [
-    CommonModule, RemoveSourced, 
+    CommonModule, RemoveSourced, NzMenuModule,
     ShortNumberPipe, IsEmptyPipe, NzSplitterModule, 
     NzCardModule, NzIconModule, NzSpinModule, NzButtonModule,
     NzFloatButtonModule, TimerComponent, CustomEndTimePipe, 
@@ -78,12 +79,12 @@ export class AppComponent implements AfterViewInit, OnInit {
         .set('active.gte', today)
         .set('active.lte', nextDay)
         .set('active.tz', 'America/Los_Angeles')
-        .set('within', '5mi@36.15232563533872,-115.15762293568056')
+        .set('within', '8mi@36.15232563533872,-115.15762293568056')
         .set('radius_unit', 'mi')
         .set('rank.gte', '20')
         .set('state', 'active,predicted')
         .set('category', 'concerts,sports,festivals,conferences,expos,performing-arts,community,politics')
-        .set('limit', '50')
+        .set('limit', '100')
         .set('start.gte', this.now)
         .set('sort', 'predicted_end');
         // phq_attendance
