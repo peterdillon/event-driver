@@ -43,6 +43,9 @@ export class AppComponent implements AfterViewInit, OnInit {
   events = [];
   results: Event[] = [];
   now = new Date().toISOString();
+  capacity = 'capacity';
+  endTime = 'endTime';
+  categories = ['conferences','expos','concerts','sports','festivals','performing-arts','community','politics'];
 
   constructor(
     private http: HttpClient,
@@ -71,11 +74,27 @@ export class AppComponent implements AfterViewInit, OnInit {
       return date.toISOString().split('T')[0];
     }
 
-    getPredictHQ() {
+
+    setSortParameter(sortParam: string): void {
+      const setCategory = '';
+      this.getPredictHQ(sortParam, setCategory);
+    }
+    setCategory(categoryName: string): void {
+      const sortParam = '';
+      this.getPredictHQ(sortParam, categoryName);
+    }
+    joinCategories() {
+      return this.categories.join(',')
+    }
+
+    getPredictHQ(sort:string, category:string) {
+
+      sort === '' ? sort = 'relevance' : sort = sort;
+      category === '' ? category = this.joinCategories() : category = category;
+
       const today = new Date().toISOString().split('T')[0];
       const nextDay = this.getNextDay(today);
       const params = new HttpParams()
-        .set('within', '10km@36.1699,-115.1398')
         .set('active.gte', today)
         .set('active.lte', nextDay)
         .set('active.tz', 'America/Los_Angeles')
@@ -83,11 +102,10 @@ export class AppComponent implements AfterViewInit, OnInit {
         .set('radius_unit', 'mi')
         .set('rank.gte', '20')
         .set('state', 'active,predicted')
-        .set('category', 'concerts,sports,festivals,conferences,expos,performing-arts,community,politics')
+        .set('category', category)
         .set('limit', '100')
         .set('start.gte', this.now)
-        .set('sort', 'predicted_end');
-        // phq_attendance
+        .set('sort', sort);
 
       this.eventDriverService.getEvents(params).subscribe(response => {
         this.events = response;
