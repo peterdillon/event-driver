@@ -28,9 +28,9 @@ L.Marker.prototype.options.icon = iconDefault;
   standalone: true,
   imports: [
     CommonModule, RemoveSourced, NzMenuModule,
-    ShortNumberPipe, IsEmptyPipe, NzSplitterModule, 
+    ShortNumberPipe, IsEmptyPipe, NzSplitterModule,
     NzCardModule, NzIconModule, NzSpinModule, NzButtonModule,
-    NzFloatButtonModule, TimerComponent, CustomEndTimePipe, 
+    NzFloatButtonModule, TimerComponent
 ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
@@ -64,7 +64,6 @@ export class AppComponent implements AfterViewInit, OnInit {
     fetchData() {
       this.eventDriverService.getData().subscribe(data => { 
         this.data.set(data);
-        console.log(data);
       });
     }
 
@@ -103,7 +102,7 @@ export class AppComponent implements AfterViewInit, OnInit {
         .set('rank.gte', '20')
         .set('state', 'active,predicted')
         .set('category', category)
-        .set('limit', '50')
+        .set('limit', '20')
         .set('start.gte', this.now)
         .set('sort', sort);
 
@@ -114,7 +113,8 @@ export class AppComponent implements AfterViewInit, OnInit {
               this.results = this.events[key];
               console.log(this.results);
               // Set in shared-api-data.service
-              this.sharedDataService.setData(this.results)
+              this.sharedDataService.setData(this.results);
+              this.addPins();
           }
         }
       });
@@ -134,7 +134,7 @@ export class AppComponent implements AfterViewInit, OnInit {
           iconAnchor:   [21, 10], 
           popupAnchor:  [5, -13]
       });
-      L.marker([36.12056, -115.16139], {icon: carIcon}).addTo(map).bindPopup("Driver 1");;
+      L.marker([36.12056, -115.16139], {icon: carIcon}).addTo(map).bindPopup("Driver 1");
       // --------- end custom car icon ------
       
       // --------- add location ----------
@@ -142,6 +142,21 @@ export class AppComponent implements AfterViewInit, OnInit {
         position: 'bottomright',
         flyTo: true
       }).addTo(map);
+    }
+
+    addPins(): void {
+      const currentData = this.sharedDataService.getData();
+      const map = this.initMapService.getMap();
+      currentData.map((item: any, index: number) => {
+        const eventIcon = L.icon({
+          iconUrl: './assets/map-pin-orange.png',
+          iconSize:     [20, 25],
+          iconAnchor:   [10, 12], 
+          popupAnchor:  [5, -13]
+        });
+        L.marker([item.location[1], item.location[0]], {icon: eventIcon}).addTo(map).bindPopup("Event" + index);
+
+      });
     }
   
 }
