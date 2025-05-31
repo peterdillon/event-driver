@@ -15,7 +15,7 @@ interface TimerState {
   standalone: true,
   imports: [CommonModule],
   providers: [DatePipe],
-  template: `Ends: <span [ngClass]="isWithinWindow ? 'soon' : 'later' " >{{ timerState().display }} </span>`
+  template: `Ends: <span [ngClass]="isWithinWindow ? 'soon' : 'later' ">{{ timerState().display }} </span>`
 })
 export class TimerComponent implements OnInit, OnDestroy {
   private intervalId: number | null = null;
@@ -52,14 +52,15 @@ export class TimerComponent implements OnInit, OnDestroy {
     const diffSeconds = Math.floor(Math.abs(diffMs) / 1000);
     
     // Check if within 30-minute window (with small buffer for processing time)
-    const thirtyMinutesMs = 230 * 60 * 1000 + 5000; // Add 5 second buffer
+    const thirtyMinutesMs = 10230 * 60 * 1000 + 5000; // Add 5 second buffer
     this.isWithinWindow = Math.abs(diffMs) <= thirtyMinutesMs;
     
     if (!this.isWithinWindow) {
 
         // Convert out of window UTC time to local time.
         const y = (this.itemData?.predicted_end ? this.itemData?.predicted_end : this.itemData?.end_local || '');
-        const localDate = new Date(y); // Convert UTC timestamp to local time
+        // Convert UTC timestamp to local time
+        const localDate = new Date(y); 
 
       return {
         display: this.datePipe.transform(localDate, 'h:mm a') || '',

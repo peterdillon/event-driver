@@ -50,11 +50,18 @@ $later-status: rgb(153, 204, 255);
 }
 
 // -------------------------------
-.horizontal-menu {
+.sticky-section {
   position: -webkit-sticky; /* For Safari */
   position: sticky;
   top: 0;
-  z-index: 9999;
+  z-index: 1000;
+  &.ad {
+    height: 40px;
+  }
+}
+.map-top-mar {
+    top: 40px !important;
+    position: fixed;
 }
 .cap {
     text-transform: capitalize;
@@ -65,6 +72,20 @@ $later-status: rgb(153, 204, 255);
     text-align: center;
     padding: 2rem;
     color: $primary-color;
+}
+.event-endtime-help {
+    font-style: italic;
+    font-size: 11px;
+    a {
+        color: rgba($primary-color, .5) ;
+    }
+}
+hr {
+  background-image: linear-gradient(to right, rgba(white, .2) 30%, rgba(255, 255, 255, 0) 0%);
+  background-size: 5px 1px;
+  height: 1px;
+  border: none;
+  margin: .1rem 0;
 }
 
 
@@ -122,14 +143,14 @@ nz-splitter {
 .ant-splitter-vertical > .ant-splitter-bar .ant-splitter-bar-dragger {
     background-color: black;
     &::after {
-        height: 5px;
-        width: 50px;
-        background-image: radial-gradient(circle, #ccc 10%, transparent 10%);
+        height: 10px;
+        width: 40%;
+        background-image: radial-gradient(circle, #999 10%, transparent 10%);
         background-size: 5px 5px;
         border-radius: 3rem;
         border-right: 4px solid #222;
         border-left: 3px solid #222;
-        top: -0.22rem;
+        top: -5px;
     }
     &::before {
         height: 0px;
@@ -175,7 +196,7 @@ nz-splitter {
         background: transparent;
     }
   .item {
-    border-bottom: 1px solid rgba(#ccc, .8);
+    border-bottom: 1px solid rgba(#ccc, .3);
   }
 }
 

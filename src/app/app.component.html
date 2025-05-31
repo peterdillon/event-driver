@@ -4,8 +4,11 @@
   </div>
 }
 <!-- {{ loadingService.requestCount() }} -->
+  <div class="sticky-section ad">
+    <img src="https://placehold.co/360x40/444/1bde84/?text=Advertisement">
+  </div>
 
-<nz-splitter nzLayout="vertical">
+<nz-splitter class="map-top-mar" nzLayout="vertical">
   <nz-splitter-panel nzDefaultSize="60%" nzMin="20%" nzMax="90%">
       <div class="map-container">
         <div class="map-frame">
@@ -15,8 +18,8 @@
   </nz-splitter-panel>
 
   <nz-splitter-panel>
-    <ul nz-menu nzMode="horizontal" class="horizontal-menu">
-      <li nz-menu-item class="x-small">
+    <ul nz-menu nzMode="horizontal" class="sticky-section">
+      <li nz-menu-item class="x-small" nzDisabled="true">
         Sort:
       </li>
       <li nz-submenu nzIcon="funnel-plot">
@@ -53,11 +56,17 @@
                     <span *ngFor="let e of item.entities">{{ e.name | removeSourced }}, </span>
                   </div>
                   <div class="ant-card-meta-description">{{ item.geo.address.formatted_address }}</div>
+                  <!-- <div class="ant-card-meta-description">
+                    Start:  {{ item.start_local | customEndTime }}
+                  </div> 
                   <div class="ant-card-meta-description">
                     Estimated end time: {{ item.predicted_end ? (item.predicted_end | customEndTime) : (item.end_local | customEndTime) }}
                   </div>
-                  <div class="ant-card-meta-description">
-                    Start:  {{ item.start_local | customEndTime }}
+                  -->
+                  <hr>
+                  <div class="ant-card-meta-description event-endtime-help">
+                    Days-long events may have end times for the entire event, not daily closings.
+                    <a href="https://www.google.com/search?q={{ item.title }}" target="_blank">Click for more info about this event.</a>
                   </div>
               </div>
               </nz-card>
@@ -79,9 +88,8 @@
         } 
         @empty {
           <div class="no-items-found">
-            No items found.
+            No items found. Select a filter, or refresh for a relevant events list.
           </div>
-            
         }
         </div>
       </div>

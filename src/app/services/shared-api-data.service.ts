@@ -25,14 +25,14 @@ export class SharedDataService {
   }
   // ------------------------------
 
-  // Optional: method to get a specific item by index
-  getItemByIndex(index: number) {
-    return this.items()[index];
-  }
-  // Optional: method to get a specific item by id
-  getItemById(id: string) {
-    return this.items().find(item => item.id === id);
-  }
+//   // Optional: method to get a specific item by index
+//   getItemByIndex(index: number) {
+//     return this.items()[index];
+//   }
+//   // Optional: method to get a specific item by id
+//   getItemById(id: string) {
+//     return this.items().find(item => item.id === id);
+//   }
 
 
 }
