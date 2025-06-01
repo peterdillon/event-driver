@@ -88,7 +88,9 @@
         } 
         @empty {
           <div class="no-items-found">
-            No items found. Select a filter, or refresh for a relevant events list.
+            <div *ngIf="emptyEvents">No items found for that category.<br><hr></div> 
+            Select a filter, or tap refresh for a <br> 
+            relevant list of events.
           </div>
         }
         </div>

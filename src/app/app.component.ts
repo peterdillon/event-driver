@@ -41,6 +41,7 @@ export class AppComponent implements AfterViewInit, OnInit {
   post: any;
   data = signal<Data[]>([]);
   events = [];
+  emptyEvents: boolean | undefined;
   results: Event[] = [];
   now = new Date().toISOString();
   capacity = 'capacity';
@@ -58,7 +59,6 @@ export class AppComponent implements AfterViewInit, OnInit {
 
     ngOnInit(): void {
       this.fetchData();
-      // this.getPredictHQ();
     }
 
     fetchData() {
@@ -107,15 +107,18 @@ export class AppComponent implements AfterViewInit, OnInit {
         .set('sort', sort);
 
       this.eventDriverService.getEvents(params).subscribe(response => {
-        this.events = response;
-        for (let key in this.events) {
-          if (key === "results") {
-              this.results = this.events[key];
-              console.log(this.results);
-              // Set in shared-api-data.service
-              this.sharedDataService.setData(this.results);
-              this.addPins();
-          }
+          this.events = response;
+          for (let key in this.events) {
+            if (key === "results") {
+                this.results = this.events[key];
+                console.log(this.results);
+                if (this.results.length === 0) {
+                  this.emptyEvents = true;
+                } 
+                // Set in shared-api-data.service
+                this.sharedDataService.setData(this.results);
+                this.addPins();
+            } 
         }
       });
     }
@@ -142,19 +145,24 @@ export class AppComponent implements AfterViewInit, OnInit {
         position: 'bottomright',
         flyTo: true
       }).addTo(map);
+      map.locate({setView: true, maxZoom: 16});
     }
 
     addPins(): void {
       const currentData = this.sharedDataService.getData();
       const map = this.initMapService.getMap();
+      const customOptions = {
+        'maxWidth': 200,
+        'className' : 'popupCustom'
+      }
       currentData.map((item: any, index: number) => {
         const eventIcon = L.icon({
           iconUrl: './assets/map-pin-orange.png',
           iconSize:     [20, 25],
           iconAnchor:   [10, 12], 
-          popupAnchor:  [5, -13]
+          popupAnchor:  [1, -5]
         });
-        L.marker([item.location[1], item.location[0]], {icon: eventIcon}).addTo(map).bindPopup("Event" + index);
+        L.marker([item.location[1], item.location[0]], {icon: eventIcon}).addTo(map).bindPopup(item.title, customOptions);
 
       });
     }

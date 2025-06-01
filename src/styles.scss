@@ -4,6 +4,7 @@ $secondary-color: rgb(18, 70, 46);
 $soon-status: orange;
 $later-status: rgb(153, 204, 255);
 
+// ------ Timer Compoenent -------
 .soon {
     color: $soon-status;
 }
@@ -15,19 +16,7 @@ $later-status: rgb(153, 204, 255);
     padding: 0 5px 0 20px !important;
 }
 
-.ant-menu-horizontal > .ant-menu-submenu > .ant-menu-submenu-title {
-    padding-left: 10px;
-}
-.ant-menu-item .ant-menu-item-icon, .ant-menu-submenu-title .ant-menu-item-icon, .ant-menu-item .anticon, .ant-menu-submenu-title .anticon {
-    font-size: 18px;
-}
-
-
-// -------------------------------
-.ant-btn-primary,
-.ant-btn-primary:hover, .ant-btn-primary:focus {
-    background-color: $secondary-color;
-}
+// ------------ Loading -------------
 .load-icon {
     font-size: 54px;
     color: $primary-color;
@@ -37,8 +26,7 @@ $later-status: rgb(153, 204, 255);
     transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
 }
-
-#overlay{
+#overlay {
   position: fixed;
   z-index: 99999;
   top: 0;
@@ -48,6 +36,7 @@ $later-status: rgb(153, 204, 255);
   background: rgba(0,0,0,0.9);
   transition: 1s 0.4s;
 }
+
 
 // -------------------------------
 .sticky-section {
@@ -90,8 +79,7 @@ hr {
   margin: .1rem 0;
 }
 
-
-// -------------------------------
+// ----------- Custom Leaflet ---------------
 .leaflet-touch .leaflet-control-layers, 
 .leaflet-touch .leaflet-bar {
     border: none;
@@ -99,33 +87,46 @@ hr {
 .leaflet-container a {
     -webkit-tap-highlight-color: transparent;
 }
-
-.ant-card-meta-detail > div:not(:last-child) {
-    margin-bottom: 0;
+.popupCustom .leaflet-popup-tip,
+.popupCustom .leaflet-popup-content-wrapper {
+    background: #222;
+    border: 1px solid $primary-color;
+    color: #ccc;
 }
-
-.pulse {
-    display: block;
-    border-radius: 50%;
-    cursor: pointer;
-    animation: pulse 2s infinite;
-}
-@keyframes pulse {
-    0%   { box-shadow: 0 0 0 0; }
-    70%  { box-shadow: 0 0 0 10px rgba(0, 0, 0, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0); }
-}
-
-.warning {
-    color: orange;
-    font-weight: bold;
-}
-
 .leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar {
     filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
     border: 1px solid #ccc;
 }
-// ----------------------
+.leaflet-control-attribution {
+    display: none;
+    background-color: #121212;
+    color: #ccc;
+    border-top-left-radius: 6px;
+}
+.map-container {
+    height: calc(100% - 1rem);
+}
+.map-frame {
+    height: 100%;
+}
+#map {
+    height: 100%;
+}
+
+// ---------- Custom NG-ZORRO ----------
+.ant-card-meta-detail > div:not(:last-child) {
+    margin-bottom: 0;
+}
+.ant-menu-horizontal > .ant-menu-submenu > .ant-menu-submenu-title {
+    padding-left: 10px;
+}
+.ant-menu-item .ant-menu-item-icon, .ant-menu-submenu-title .ant-menu-item-icon, .ant-menu-item .anticon, .ant-menu-submenu-title .anticon {
+    font-size: 18px;
+}
+.ant-btn-primary,
+.ant-btn-primary:hover, .ant-btn-primary:focus {
+    background-color: $secondary-color;
+}
 nz-splitter {
   position: absolute;
 }
@@ -135,7 +136,6 @@ nz-splitter {
   justify-content: center;
   align-items: center;
 }
-
 .ant-splitter-panel {
     padding: 0;
     scrollbar-color: #444 #222;
@@ -163,25 +163,24 @@ nz-splitter {
 .ant-card-body {
     padding: .5rem !important;
 }
-// ------------------------------
-.leaflet-control-attribution {
-    display: none;
-    background-color: #121212;
-    color: #ccc;
-    border-top-left-radius: 6px;
-}
-.map-container {
-    height: calc(100% - 1rem);
-}
-.map-frame {
-    height: 100%;
-}
-#map {
-    height: 100%;
-}
 
-// ------------------------
 
+// --------- Other Custom Stuff -----------
+.pulse {
+    display: block;
+    border-radius: 50%;
+    cursor: pointer;
+    animation: pulse 2s infinite;
+}
+@keyframes pulse {
+    0%   { box-shadow: 0 0 0 0; }
+    70%  { box-shadow: 0 0 0 10px rgba(0, 0, 0, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0); }
+}
+.warning {
+    color: orange;
+    font-weight: bold;
+}
 .relative {
   position: relative;  
 }
@@ -193,6 +192,7 @@ nz-splitter {
   overflow-y: scroll;
   width: 101%;
   box-sizing: border-box;
+  padding-bottom: 40px; // compensates for top advert .map-top-mar class
     &::-webkit-scrollbar {
         width: 0;
         background: transparent;
