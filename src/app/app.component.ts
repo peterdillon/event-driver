@@ -53,8 +53,8 @@ export class AppComponent implements AfterViewInit, OnInit {
       };
   carIcon = L.icon({
       iconUrl: './assets/car-top.png',
-      iconSize:     [33, 15],
-      iconAnchor:   [21, 10], 
+      iconSize:     [35, 16],
+      iconAnchor:   [20, 8], 
       popupAnchor:  [5, -13]
   });
   customMarker: L.Marker<any> | null = null;
@@ -83,7 +83,6 @@ export class AppComponent implements AfterViewInit, OnInit {
       date.setDate(date.getDate() + 1);
       return date.toISOString().split('T')[0];
     }
-
 
     setSortParameter(sortParam: string): void {
       const setCategory = '';
@@ -145,7 +144,10 @@ export class AppComponent implements AfterViewInit, OnInit {
         position: 'bottomright',
         flyTo: true
       }).addTo(map);
-      map.locate({setView: true, maxZoom: 16});
+      map.locate({ 
+        setView: true, 
+        maxZoom: 16 
+      });
       map.on('locationfound', (e: L.LocationEvent) => this.addCustomMarker.call(this, e));
       map.on('locationerror', this.onLocationError.bind(this));
       map.on('locatedeactivate', this.removeCustomMarker.bind(this));

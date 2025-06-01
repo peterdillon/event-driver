@@ -103,6 +103,15 @@ hr {
     color: #ccc;
     border-top-left-radius: 6px;
 }
+// This is to remove the pulsing svg icon when location is on...
+// Need to be careful and ensure it does not cause other issues.
+.leaflet-marker-icon.leaflet-interactive {
+    svg {
+        circle {
+            display: none;
+        }
+    }
+}
 .map-container {
     height: calc(100% - 1rem);
 }
