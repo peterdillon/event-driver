@@ -160,7 +160,7 @@ export class AppComponent implements AfterViewInit, OnInit {
           map.removeLayer(this.customMarker);
       }
       this.customMarker = L.marker(e.latlng, {icon: this.carIcon}).addTo(map)
-          .bindPopup("You are " + radius + " meters from this point", this.customPopup).openPopup();
+          .bindPopup("You are within " + radius + " meters of this point.", this.customPopup).openPopup();
     }
 
     removeCustomMarker() {
