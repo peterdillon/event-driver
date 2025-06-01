@@ -1,6 +1,6 @@
 import { Component, Input, inject, computed, effect, signal, OnDestroy, OnInit, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SharedDataService, PredictHQItem } from './services/shared-api-data.service';
+import { SharedDataService, PredictHQItem } from '../services/shared-api-data.service';
 import { DatePipe } from '@angular/common';
 
 interface TimerState {
@@ -18,11 +18,11 @@ interface TimerState {
   template: `Ends: <span [ngClass]="isWithinWindow ? 'soon' : 'later' ">{{ timerState().display }} </span>`
 })
 export class TimerComponent implements OnInit, OnDestroy {
+  
   private intervalId: number | null = null;
   private targetTimestamp = signal<string | null>(null);
   private currentTime = signal<Date>(new Date());
   isWithinWindow: boolean | undefined;
-
   @Input() itemData!: PredictHQItem;
   @Input() itemIndex!: number;
   eventData = computed(() => this.sharedDataService.getData());
@@ -96,13 +96,14 @@ export class TimerComponent implements OnInit, OnDestroy {
     });
   }
   
-ngOnInit(): void {
-    this.startCountDown();
-}
+  ngOnInit(): void {
+      this.startCountDown();
+  }
 
-startCountDown(): void {
-    this.setApiTimestamp(this.itemData?.predicted_end ? this.itemData?.predicted_end : this.itemData?.end_local || '');
-}
+  startCountDown(): void {
+      this.setApiTimestamp(this.itemData?.predicted_end ? this.itemData?.predicted_end : this.itemData?.end_local || '');
+  }
+
  // Public method to set the timestamp from API
   setApiTimestamp(timestamp: string) {
     this.targetTimestamp.set(timestamp);
@@ -121,7 +122,8 @@ startCountDown(): void {
   }
 
   private startTimer() {
-    this.stopTimer(); // Clear any existing timer
+    // Clear any existing timer
+    this.stopTimer();
     
     this.intervalId = window.setInterval(() => {
       // Update the current time signal to trigger recalculation

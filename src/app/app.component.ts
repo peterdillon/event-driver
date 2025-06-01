@@ -16,7 +16,7 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzFloatButtonModule } from 'ng-zorro-antd/float-button';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
-import { TimerComponent } from './timer.component';
+import { TimerComponent } from './timer/timer.component';
 import "leaflet.locatecontrol";
 import "leaflet.locatecontrol/dist/L.Control.Locate.min.css";
 import * as L from 'leaflet';
