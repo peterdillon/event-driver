@@ -166,6 +166,19 @@ nz-splitter {
 
 
 // --------- Other Custom Stuff -----------
+.map-icons-ct {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    span {
+        padding: 0 1rem;
+    }
+    span:first-of-type {
+        border-right: 1px solid #2a2a2a;
+    }
+}
+
 .pulse {
     display: block;
     border-radius: 50%;

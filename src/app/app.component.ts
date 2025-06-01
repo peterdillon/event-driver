@@ -157,7 +157,7 @@ export class AppComponent implements AfterViewInit, OnInit {
       }
       currentData.map((item: any, index: number) => {
         const eventIcon = L.icon({
-          iconUrl: './assets/map-pin-orange.png',
+          iconUrl: './assets/map-pin-orange.svg',
           iconSize:     [20, 25],
           iconAnchor:   [10, 12], 
           popupAnchor:  [1, -5]
@@ -165,6 +165,16 @@ export class AppComponent implements AfterViewInit, OnInit {
         L.marker([item.location[1], item.location[0]], {icon: eventIcon}).addTo(map).bindPopup(item.title, customOptions);
 
       });
+    }
+
+    openGoogleMaps(location_0: number, location_1: number) {
+      const url = `https://www.google.com/maps/dir/Current+Location/${location_0},${location_1}`;
+      window.open(url, '_blank');
+    }
+
+    flyToPin(location_0: number, location_1: number): void {
+      const map = this.initMapService.getMap();
+      map.flyTo([location_0, location_1], 17, { duration: 2 });
     }
   
 }
