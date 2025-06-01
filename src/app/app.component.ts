@@ -47,6 +47,17 @@ export class AppComponent implements AfterViewInit, OnInit {
   capacity = 'capacity';
   endTime = 'endTime';
   categories = ['conferences','expos','concerts','sports','festivals','performing-arts','community','politics'];
+  customPopup = {
+        'maxWidth': 200,
+        'className' : 'popupCustom'
+      };
+  carIcon = L.icon({
+      iconUrl: './assets/car-top.png',
+      iconSize:     [33, 15],
+      iconAnchor:   [21, 10], 
+      popupAnchor:  [5, -13]
+  });
+  customMarker: L.Marker<any> | null = null;
 
   constructor(
     private http: HttpClient,
@@ -129,32 +140,43 @@ export class AppComponent implements AfterViewInit, OnInit {
       // this.markerService.makeCapitalMarkers(map);
       // this.markerService.makePulsingMarker(map);
       this.layerService.createLayer(map);
-
-      // --------- custom car icon ----------
-      const carIcon = L.icon({
-          iconUrl: './assets/car-top.png',
-          iconSize:     [33, 15],
-          iconAnchor:   [21, 10], 
-          popupAnchor:  [5, -13]
-      });
-      L.marker([36.12056, -115.16139], {icon: carIcon}).addTo(map).bindPopup("Driver 1");
-      // --------- end custom car icon ------
-      
-      // --------- add location ----------
+      // --------- add location button ----------
       L.control.locate({
         position: 'bottomright',
         flyTo: true
       }).addTo(map);
       map.locate({setView: true, maxZoom: 16});
+      map.on('locationfound', (e: L.LocationEvent) => this.addCustomMarker.call(this, e));
+      map.on('locationerror', this.onLocationError.bind(this));
+      map.on('locatedeactivate', this.removeCustomMarker.bind(this));
+    }
+
+    addCustomMarker(e: L.LocationEvent) {
+      const map = this.initMapService.getMap();
+      const radius = e.accuracy / 2;
+      if (this.customMarker) {
+          map.removeLayer(this.customMarker);
+      }
+      this.customMarker = L.marker(e.latlng, {icon: this.carIcon}).addTo(map)
+          .bindPopup("You are " + radius + " meters from this point", this.customPopup).openPopup();
+    }
+
+    removeCustomMarker() {
+      const map = this.initMapService.getMap();
+      if (this.customMarker) {
+          map.removeLayer(this.customMarker);
+          this.customMarker = null; 
+      }
+    }
+
+    // --------------------------
+    onLocationError(e: any) {
+      alert(e.message);
     }
 
     addPins(): void {
       const currentData = this.sharedDataService.getData();
       const map = this.initMapService.getMap();
-      const customOptions = {
-        'maxWidth': 200,
-        'className' : 'popupCustom'
-      }
       currentData.map((item: any, index: number) => {
         const eventIcon = L.icon({
           iconUrl: './assets/map-pin-orange.svg',
@@ -162,8 +184,7 @@ export class AppComponent implements AfterViewInit, OnInit {
           iconAnchor:   [10, 12], 
           popupAnchor:  [1, -5]
         });
-        L.marker([item.location[1], item.location[0]], {icon: eventIcon}).addTo(map).bindPopup(item.title, customOptions);
-
+        L.marker([item.location[1], item.location[0]], {icon: eventIcon}).addTo(map).bindPopup(item.title, this.customPopup);
       });
     }
 
