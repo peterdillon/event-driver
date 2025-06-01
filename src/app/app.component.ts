@@ -193,7 +193,7 @@ export class AppComponent implements AfterViewInit, OnInit {
       window.open(url, '_blank');
     }
 
-    flyToPin(location_0: number, location_1: number): void {
+    flyToEvent(location_0: number, location_1: number): void {
       const map = this.initMapService.getMap();
       map.flyTo([location_0, location_1], 17, { duration: 2 });
     }
