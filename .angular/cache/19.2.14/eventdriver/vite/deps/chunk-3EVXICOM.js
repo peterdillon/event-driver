@@ -12,30 +12,6 @@ import {
   Observable
 } from "./chunk-3SRVZXQZ.js";
 
-// node_modules/ng-zorro-antd/fesm2022/ng-zorro-antd-core-environments.mjs
-var environment = {
-  isTestMode: false
-};
-
-// node_modules/ng-zorro-antd/fesm2022/ng-zorro-antd-core-logger.mjs
-var record = {};
-var PREFIX = "[NG-ZORRO]:";
-function notRecorded(...args) {
-  const asRecord = args.reduce((acc, c) => acc + c.toString(), "");
-  if (record[asRecord]) {
-    return false;
-  } else {
-    record[asRecord] = true;
-    return true;
-  }
-}
-function consoleCommonBehavior(consoleFunc, ...args) {
-  if (environment.isTestMode || isDevMode() && notRecorded(...args)) {
-    consoleFunc(...args);
-  }
-}
-var warn = (...args) => consoleCommonBehavior((...arg) => console.warn(PREFIX, ...arg), ...args);
-
 // node_modules/@angular/cdk/fesm2022/css-pixel-value-C_HEqLhI.mjs
 function coerceCssPixelValue(value) {
   if (value == null) {
@@ -62,6 +38,30 @@ function coerceElement(elementOrRef) {
 function coerceArray(value) {
   return Array.isArray(value) ? value : [value];
 }
+
+// node_modules/ng-zorro-antd/fesm2022/ng-zorro-antd-core-environments.mjs
+var environment = {
+  isTestMode: false
+};
+
+// node_modules/ng-zorro-antd/fesm2022/ng-zorro-antd-core-logger.mjs
+var record = {};
+var PREFIX = "[NG-ZORRO]:";
+function notRecorded(...args) {
+  const asRecord = args.reduce((acc, c) => acc + c.toString(), "");
+  if (record[asRecord]) {
+    return false;
+  } else {
+    record[asRecord] = true;
+    return true;
+  }
+}
+function consoleCommonBehavior(consoleFunc, ...args) {
+  if (environment.isTestMode || isDevMode() && notRecorded(...args)) {
+    consoleFunc(...args);
+  }
+}
+var warn = (...args) => consoleCommonBehavior((...arg) => console.warn(PREFIX, ...arg), ...args);
 
 // node_modules/ng-zorro-antd/fesm2022/ng-zorro-antd-core-util.mjs
 function isNotNil(value) {
@@ -173,12 +173,12 @@ function fromEventOutsideAngular(target, name, options) {
 }
 
 export {
-  environment,
-  warn,
   coerceNumberProperty,
   coerceElement,
   coerceArray,
   coerceCssPixelValue,
+  environment,
+  warn,
   isNotNil,
   isTemplateRef,
   numberAttributeWithZeroFallback,
@@ -190,4 +190,4 @@ export {
   updateCSS,
   fromEventOutsideAngular
 };
-//# sourceMappingURL=chunk-JD5ARZ2F.js.map
+//# sourceMappingURL=chunk-3EVXICOM.js.map

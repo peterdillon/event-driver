@@ -145,7 +145,7 @@ export class AppComponent implements AfterViewInit, OnInit {
         flyTo: true
       }).addTo(map);
       map.locate({ 
-        setView: true, 
+        setView: false, 
         maxZoom: 16 
       });
       map.on('locationfound', (e: L.LocationEvent) => this.addCustomMarker.call(this, e));

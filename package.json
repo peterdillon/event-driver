@@ -6,7 +6,7 @@
     "start": "ng serve --hmr",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "build_prod": "ng build --configuration production",
+    "build:prod": "ng build -- --project=eventdriver --configuration=production",
     "test": "ng test"
   },
   "private": true,

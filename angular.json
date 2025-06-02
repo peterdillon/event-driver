@@ -40,9 +40,14 @@
                 "output": "/"
               },
               {
+                "glob": "health.html",
+                "input": "src/assets",
+                "output": "/"
+              },
+              {
                 "glob": "**/*",
                 "input": "node_modules/leaflet/dist/images/",
-                "output": "./assets"
+                "output": "/assets"
               },
               {
                 "glob": "**/*",

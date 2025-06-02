@@ -2,28 +2,28 @@ import {
   toSignal
 } from "./chunk-7L7UJD6V.js";
 import {
-  NzDestroyService
-} from "./chunk-JI6TI5H6.js";
-import {
-  NzStringTemplateOutletDirective
-} from "./chunk-YS6TWBZE.js";
-import {
   NzWaveModule
 } from "./chunk-GB2YPLZ7.js";
 import {
   NzTransitionPatchModule
 } from "./chunk-UBBTNIJM.js";
 import {
+  NzDestroyService
+} from "./chunk-3PQU3I52.js";
+import {
+  NzStringTemplateOutletDirective
+} from "./chunk-EN4ZVZMP.js";
+import {
   NzIconDirective,
   NzIconModule
-} from "./chunk-UQJOJ3O3.js";
+} from "./chunk-WO4CMCVE.js";
 import {
   NzConfigService,
   WithConfig
-} from "./chunk-GLON2OEV.js";
+} from "./chunk-HVBYE6FU.js";
 import {
   fromEventOutsideAngular
-} from "./chunk-JD5ARZ2F.js";
+} from "./chunk-3EVXICOM.js";
 import {
   Directionality
 } from "./chunk-U7BXZ25W.js";
@@ -949,4 +949,4 @@ export {
   NzButtonGroupComponent,
   NzButtonModule
 };
-//# sourceMappingURL=chunk-CDZO2PWK.js.map
+//# sourceMappingURL=chunk-BJISX3BL.js.map
