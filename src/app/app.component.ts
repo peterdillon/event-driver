@@ -19,7 +19,7 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { TimerComponent } from './timer/timer.component';
 import "leaflet.locatecontrol";
 import "leaflet.locatecontrol/dist/L.Control.Locate.min.css";
-import * as L from 'leaflet';
+import  L from 'leaflet';
 import { LoadingService } from './services/loading.service';
 L.Marker.prototype.options.icon = iconDefault;
 

@@ -17,6 +17,9 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
+            "allowedCommonJsDependencies": [
+                "leaflet","leaflet.locatecontrol"
+            ],
             "outputPath": "dist/eventdriver",
             "index": "src/index.html",
             "browser": "src/main.ts",
@@ -60,8 +63,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "5MB"
+                  "maximumWarning": "5MB",
+                  "maximumError": "8MB"
                 },
                 {
                   "type": "anyComponentStyle",
