@@ -37,7 +37,6 @@ $later-status: rgb(153, 204, 255);
   transition: 1s 0.4s;
 }
 
-
 // -------------------------------
 .sticky-section {
   position: -webkit-sticky; /* For Safari */
@@ -66,9 +65,10 @@ $later-status: rgb(153, 204, 255);
 }
 .event-endtime-help {
     font-style: italic;
-    font-size: 11px;
+    font-size: 12px;
     a {
-        color: rgba($primary-color, .5) ;
+        color: $primary-color;
+        text-decoration: dotted;
     }
 }
 hr {
@@ -154,13 +154,9 @@ nz-splitter {
 .ant-splitter-vertical > .ant-splitter-bar .ant-splitter-bar-dragger {
     background-color: black;
     &::after {
-        height: 10px;
-        width: 40%;
-        background-image: radial-gradient(circle, #999 10%, transparent 10%);
-        background-size: 5px 5px;
-        border-radius: 3rem;
-        border-right: 4px solid #222;
-        border-left: 3px solid #222;
+        height: 3px;
+        width: 15px;
+        background-color: #dad9df;
         top: -5px;
     }
     &::before {
