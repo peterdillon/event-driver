@@ -121,7 +121,6 @@ export class AppComponent implements AfterViewInit, OnInit {
           for (let key in this.events) {
             if (key === "results") {
                 this.results = this.events[key];
-                console.log(this.results);
                 if (this.results.length === 0) {
                   this.emptyEvents = true;
                 } 
