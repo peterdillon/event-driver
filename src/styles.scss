@@ -58,11 +58,23 @@ $later-status: rgb(153, 204, 255);
     color: rgba(255, 255, 255, 0.45);
     font-size: 14px;
 }
+// ---------
 .no-items-found {
     text-align: center;
     padding: 2rem;
     color: $primary-color;
+    hr {
+        background-image: linear-gradient(to right, rgba($primary-color, .6) 50%, transparent 50%);
+    }
 }
+hr {
+    background-image: linear-gradient(to right, rgba(white, .45) 50%, transparent 50%); 
+    background-size: 5px 3px;
+    height: 1px;
+    border: none;
+    margin: .3rem 0;
+}
+// ---------
 .event-endtime-help {
     font-style: italic;
     font-size: 12px;
@@ -71,13 +83,7 @@ $later-status: rgb(153, 204, 255);
         text-decoration: dotted;
     }
 }
-hr {
-  background-image: linear-gradient(to right, rgba(white, .2) 30%, rgba(255, 255, 255, 0) 0%);
-  background-size: 5px 1px;
-  height: 1px;
-  border: none;
-  margin: .1rem 0;
-}
+
 
 // ----------- Custom Leaflet ---------------
 .leaflet-touch .leaflet-control-layers, 
