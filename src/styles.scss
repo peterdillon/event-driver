@@ -145,19 +145,24 @@ nz-splitter {
   justify-content: center;
   align-items: center;
 }
+
 .ant-splitter-panel {
-    padding: 0;
+    padding: .25rem 0 0 0;
     scrollbar-color: #444 #222;
     scrollbar-width: 6px;
+    &:first-of-type {
+        padding: 0;
+    }
 }
-
 .ant-splitter-vertical > .ant-splitter-bar .ant-splitter-bar-dragger {
     background-color: black;
+    height: .75rem;
     &::after {
         height: 3px;
         width: 15px;
         background-color: #dad9df;
-        top: -5px;
+        border-radius: 99rem;
+        top: 1px;
     }
     &::before {
         height: 0px;
