@@ -7,14 +7,14 @@ phases:
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
-      - aws ecr get-login-password --region <region> | docker login --username AWS --password-stdin <account-id>.dkr.ecr.<region>.amazonaws.com
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 741448924187.dkr.ecr.us-east-1.amazonaws.com
   build:
     commands:
       - echo Building the Docker image...
-      - docker build -t <your-repo-name>:latest .
-      - docker tag <your-repo-name>:latest <account-id>.dkr.ecr.<region>.amazonaws.com/<your-repo-name>:latest
+      - docker build -t eventdriver:latest .
+      - docker tag eventdriver:latest 741448924187.dkr.ecr.us-east-1.amazonaws.com/eventdriver:latest
   post_build:
     commands:
       - echo Pushing the Docker image...
-      - docker push <account-id>.dkr.ecr.<region>.amazonaws.com/<your-repo-name>:latest
+      - docker push 741448924187.dkr.ecr.us-east-1.amazonaws.com/eventdriver:latest
       - echo Build completed on `date`
