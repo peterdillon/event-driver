@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, signal, OnInit, Inject } from '@angular/core';
+import { Component, AfterViewInit, signal, OnInit, Inject, ViewChild, ViewContainerRef, Injector } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { InitMapService } from './services/init-map.service';
@@ -23,16 +23,17 @@ import "leaflet.locatecontrol/dist/L.Control.Locate.min.css";
 import  L from 'leaflet';
 import { LoadingService } from './services/loading.service';
 L.Marker.prototype.options.icon = iconDefault;
+import { CustomPopupComponent, CustomPopupData } from './custom-popup/custom-popup.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  providers: [DatePipe],
+  providers: [DatePipe, CustomPopupComponent],
   imports: [
     CommonModule, RemoveSourced, NzMenuModule,
     ShortNumberPipe, IsEmptyPipe, NzSplitterModule,
     NzCardModule, NzIconModule, NzSpinModule, NzButtonModule,
-    NzFloatButtonModule, TimerComponent
+    NzFloatButtonModule, TimerComponent 
 ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
@@ -40,6 +41,7 @@ L.Marker.prototype.options.icon = iconDefault;
 
 export class AppComponent implements AfterViewInit, OnInit {
   
+  @ViewChild('popupContainer', { read: ViewContainerRef }) popupContainer!: ViewContainerRef;
   post: any;
   data = signal<Data[]>([]);
   events = [];
@@ -58,6 +60,12 @@ export class AppComponent implements AfterViewInit, OnInit {
       popupAnchor:  [5, -13]
   });
   customMarker: L.Marker<any> | null = null;
+  eventIcon = L.icon({
+      iconUrl: './assets/map-pin-orange.svg',
+      iconSize:     [20, 25],
+      iconAnchor:   [10, 12], 
+      popupAnchor:  [1, -5]
+  });
 
   constructor(
     private http: HttpClient,
@@ -67,7 +75,8 @@ export class AppComponent implements AfterViewInit, OnInit {
     private layerService: LayerService,
     public loadingService: LoadingService,
     public sharedDataService: SharedDataService,
-    @Inject(DatePipe) private datePipe: DatePipe ) { }
+    @Inject(DatePipe) private datePipe: DatePipe,
+    private injector: Injector ) { }
 
     ngOnInit(): void {
       this.fetchData();
@@ -161,7 +170,7 @@ export class AppComponent implements AfterViewInit, OnInit {
           map.removeLayer(this.customMarker);
       }
       this.customMarker = L.marker(e.latlng, {icon: this.carIcon}).addTo(map)
-          // .bindPopup("You are within " + radius + " meters of this point.", this.customPopup).openPopup();
+      // .bindPopup("You are within " + radius + " meters of this point.", this.customPopup).openPopup();
     }
 
     removeCustomMarker() {
@@ -181,12 +190,6 @@ export class AppComponent implements AfterViewInit, OnInit {
       const currentData = this.sharedDataService.getData();
       const map = this.initMapService.getMap();
       currentData.map((item: any, index: number) => {
-        const eventIcon = L.icon({
-          iconUrl: './assets/map-pin-orange.svg',
-          iconSize:     [20, 25],
-          iconAnchor:   [10, 12], 
-          popupAnchor:  [1, -5]
-        });
         const labels = item.phq_labels && item.phq_labels.map((m: any) => {
           for (let key in m) {
             if (key === "label") {
@@ -194,13 +197,32 @@ export class AppComponent implements AfterViewInit, OnInit {
             }
           }
           return 'No label provided';
-        }).join(', ') || 'No label provided';;
+        }).join(', ') || 'No label provided';
         const endtime = this.datePipe.transform(item.end_local, 'h:mm a') || '';
-        const showInfo = 
-          item.title + '<br>Labels: <span class="popup-label">' + 
-          labels + '</span>' + '<br>End: <span class="popup-end-time">' + endtime + '</span>';
-        L.marker([item.location[1], item.location[0]], {icon: eventIcon}).addTo(map).bindPopup(showInfo, this.customPopup);
+        const showInfo = this.compilePopup(CustomPopupComponent, {
+          title: item.title,
+          labels: labels,
+          endtime: endtime
+        });
+        L.marker([item.location[1], item.location[0]], {icon: this.eventIcon}).addTo(map).bindPopup(showInfo, this.customPopup);
       });
+    }
+
+    compilePopup<T extends CustomPopupData>(componentType: any, data: T): HTMLElement {
+      const componentRef = this.popupContainer.createComponent(componentType);
+      // Cast to the specific component type
+      const instance = componentRef.instance as CustomPopupComponent; 
+      instance.title = data.title;
+      instance.labels = data.labels;
+      instance.endtime = data.endtime;
+      // Trigger change detection
+      componentRef.changeDetectorRef.detectChanges();
+      // Get the DOM element and clone it
+      const originalElement = componentRef.location.nativeElement;
+      const clonedElement = originalElement.cloneNode(true) as HTMLElement;
+      // Clean up the original component since we're using a clone
+      componentRef.destroy();
+      return clonedElement;
     }
 
     openGoogleMaps(location_0: number, location_1: number) {
