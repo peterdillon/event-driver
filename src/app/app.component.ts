@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, signal, OnInit } from '@angular/core';
+import { Component, AfterViewInit, signal, OnInit, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { InitMapService } from './services/init-map.service';
@@ -17,6 +17,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzFloatButtonModule } from 'ng-zorro-antd/float-button';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { TimerComponent } from './timer/timer.component';
+import { DatePipe } from '@angular/common';
 import "leaflet.locatecontrol";
 import "leaflet.locatecontrol/dist/L.Control.Locate.min.css";
 import  L from 'leaflet';
@@ -26,6 +27,7 @@ L.Marker.prototype.options.icon = iconDefault;
 @Component({
   selector: 'app-root',
   standalone: true,
+  providers: [DatePipe],
   imports: [
     CommonModule, RemoveSourced, NzMenuModule,
     ShortNumberPipe, IsEmptyPipe, NzSplitterModule,
@@ -44,8 +46,6 @@ export class AppComponent implements AfterViewInit, OnInit {
   emptyEvents: boolean | undefined;
   results: Event[] = [];
   now = new Date().toISOString();
-  capacity = 'capacity';
-  endTime = 'endTime';
   categories = ['conferences','expos','concerts','sports','festivals','performing-arts','community','politics'];
   customPopup = {
         'maxWidth': 200,
@@ -66,7 +66,8 @@ export class AppComponent implements AfterViewInit, OnInit {
     private markerService: MarkerService,
     private layerService: LayerService,
     public loadingService: LoadingService,
-    public sharedDataService: SharedDataService ) { }
+    public sharedDataService: SharedDataService,
+    @Inject(DatePipe) private datePipe: DatePipe ) { }
 
     ngOnInit(): void {
       this.fetchData();
@@ -121,6 +122,7 @@ export class AppComponent implements AfterViewInit, OnInit {
           for (let key in this.events) {
             if (key === "results") {
                 this.results = this.events[key];
+                console.log(this.results);
                 if (this.results.length === 0) {
                   this.emptyEvents = true;
                 } 
@@ -159,7 +161,7 @@ export class AppComponent implements AfterViewInit, OnInit {
           map.removeLayer(this.customMarker);
       }
       this.customMarker = L.marker(e.latlng, {icon: this.carIcon}).addTo(map)
-          .bindPopup("You are within " + radius + " meters of this point.", this.customPopup).openPopup();
+          // .bindPopup("You are within " + radius + " meters of this point.", this.customPopup).openPopup();
     }
 
     removeCustomMarker() {
@@ -185,7 +187,19 @@ export class AppComponent implements AfterViewInit, OnInit {
           iconAnchor:   [10, 12], 
           popupAnchor:  [1, -5]
         });
-        L.marker([item.location[1], item.location[0]], {icon: eventIcon}).addTo(map).bindPopup(item.title, this.customPopup);
+        const labels = item.phq_labels && item.phq_labels.map((m: any) => {
+          for (let key in m) {
+            if (key === "label") {
+              return `${m[key]}`;
+            }
+          }
+          return 'No label provided';
+        }).join(', ') || 'No label provided';;
+        const endtime = this.datePipe.transform(item.end_local, 'h:mm a') || '';
+        const showInfo = 
+          item.title + '<br>Labels: <span class="popup-label">' + 
+          labels + '</span>' + '<br>End: <span class="popup-end-time">' + endtime + '</span>';
+        L.marker([item.location[1], item.location[0]], {icon: eventIcon}).addTo(map).bindPopup(showInfo, this.customPopup);
       });
     }
 

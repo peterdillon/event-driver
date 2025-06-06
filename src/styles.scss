@@ -58,6 +58,13 @@ $later-status: rgb(153, 204, 255);
     color: rgba(255, 255, 255, 0.45);
     font-size: 14px;
 }
+.popup-label {
+    text-transform: capitalize;
+    color: $primary-color;
+}
+.popup-end-time {
+    color: orange;
+}
 // ---------
 .no-items-found {
     text-align: center;
@@ -153,7 +160,7 @@ nz-splitter {
 }
 
 .ant-splitter-panel {
-    padding: .25rem 0 0 0;
+    padding: 0;
     scrollbar-color: #444 #222;
     scrollbar-width: 6px;
     &:first-of-type {
@@ -168,10 +175,11 @@ nz-splitter {
         width: 15px;
         background-color: #dad9df;
         border-radius: 99rem;
-        top: 1px;
+        top: -2px;
     }
     &::before {
-        height: 0px;
+        height: 16px;
+        background-color: black;
     }
 }
 .ant-card-head,
