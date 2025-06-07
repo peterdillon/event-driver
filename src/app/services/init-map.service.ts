@@ -7,7 +7,7 @@ import * as L from 'leaflet';
 
 export class InitMapService {
     
-    private accessToken = 'EZ0K9Kcue05uXQXUAymHu5hMJHeD2lAqwBGxO2p66yJzUFqWiUpyp8UqyvOMKrXi';
+    private accessToken = '';
     private map!: L.Map;
     private the_sphere = {
         lat: 36.12056,
